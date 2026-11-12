@@ -7,7 +7,17 @@ from pydantic import BaseModel,Field
 from .config import settings
 from . import core
 app=FastAPI(title="AI Audio Book Tutor API")
-app.add_middleware(CORSMiddleware,allow_origins=[settings.frontend_origin],allow_credentials=False,allow_methods=["*"],allow_headers=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://ai-audio-book-tutor.vercel.app",
+        "http://localhost:3000",
+        settings.frontend_origin.rstrip("/")
+    ],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 @app.on_event("startup")
 def startup():core.init()
 @app.get("/")
